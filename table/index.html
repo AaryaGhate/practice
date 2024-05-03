@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="inputform">
+        <label for="input1">Input 1:</label>
+        <input type="text"  name="input1" value="3#3#3"><br><br>
+
+        <label for="input2">Input 2:</label>
+        <input type="text" name="input2" value="3#3#4"><br>
+
+        <button>Submit</button>
+
+        
+    </form>
+    <hr>
+    <table id="table1"></table><hr>
+    <table id="table2"></table><hr>
+    <table id="table3"></table>
+
+    <script>
+
+        const form=document.getElementById("inputform");
+
+        function createtable(input){
+            var {rows,columns,start}=input.map(Number);
+
+            const table=[];
+
+            for(let i=0;i<rows;i++){
+                const row=[];
+                for(let j=0;j<columns;j++){
+                    row.push((i+1)*(j+start));
+                }
+
+                table.push(row);
+            }
+
+            return table;
+
+            
+        }
+
+        // function displaytable(table,id){
+        //     const tableoutput=document.getElementById(id);
+        //     tableoutput.innerHTML=table.map(row=>`<tr>${row.map(cell=> `<td>${cell}</td>`).join('')}</tr>`).join('');
+            
+        // }
+        function displaytable(table, id) {
+        const tableoutput = document.getElementById(id);
+        tableoutput.innerHTML = table.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('');
+        }
+
+
+        function multiplytable(table1,table2){
+            return table1.map((row,rowIndex)=>
+                row.map((cell,colIndex) =>
+            cell !== table2[rowIndex][colIndex] ? cell* table2[rowIndex][colIndex] :cell))
+        }
+
+        form.addEventListener("submit",function(event){
+
+            event.preventDefault();
+
+            const input1=form.input1.value.split("#");
+            const input2=form.input2.value.split("#");
+
+            const table1=createtable(input1);
+            const table2=createtable(input2);
+            const table3=multiplytable(table1,table2);
+
+            displaytable(table1,"table1");
+            displaytable(table2,"table2");
+            displaytable(table3,"table3");
+        })
+    </script>
+</body>
+</html>
